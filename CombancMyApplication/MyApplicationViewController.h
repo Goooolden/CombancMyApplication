@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum ApplyType{
+    LeaveApplyType = 0,
+    ApproveApplyType,
+    RepairApplyType
+}ApplyType;
+
 @interface MyApplicationViewController : UIViewController
+
+@property (nonatomic, assign) ApplyType applyType;
 
 @end
