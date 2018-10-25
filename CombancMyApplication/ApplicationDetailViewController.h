@@ -6,7 +6,7 @@
 //  Copyright © 2018年 Combanc. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
 @interface ApplicationDetailViewController : UIViewController
 
