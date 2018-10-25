@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface ApplicationDetailViewController : BaseViewController
+@interface ApplicationDetailViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *modelArray;
 
