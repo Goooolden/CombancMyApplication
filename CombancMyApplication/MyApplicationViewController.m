@@ -13,6 +13,7 @@
 #import "ApplicationDetailModel.h"
 #import "PickerSelectView.h"
 
+#import "MyApplyDefine.h"
 #import "Masonry.h"
 #import "MJExtension.h"
 #import "UIColor+MyApplicaionCategory.h"
