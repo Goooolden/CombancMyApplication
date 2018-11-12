@@ -10,4 +10,6 @@
 
 @interface MyApplicationPageViewController : WMPageController
 
+@property (nonatomic, strong) NSString *token;
+
 @end

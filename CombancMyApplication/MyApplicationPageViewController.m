@@ -9,6 +9,7 @@
 #import "MyApplicationPageViewController.h"
 #import "UIColor+MyApplicaionCategory.h"
 #import "MyApplicationViewController.h"
+#import "MyApplicationInterfaceMacro.h"
 
 @interface MyApplicationPageViewController ()
 
@@ -18,6 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)setToken:(NSString *)token {
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:MyApplicatonToken];
 }
 
 - (instancetype)init {
@@ -38,7 +43,7 @@
 }
 
 - (NSArray *)titles {
-    return @[@"请假",@"预约",@"报修"];
+    return @[@"用车",@"场地",@"报修"];
 }
 
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
@@ -51,6 +56,22 @@
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
     MyApplicationViewController *newsListVC = [[MyApplicationViewController alloc]init];
+    switch (index) {
+        case 0:{
+            newsListVC.applyType = CarApplyType;
+            break;
+        }
+        case 1:{
+            newsListVC.applyType = GroundApplyType;
+            break;
+        }
+        case 2:{
+            newsListVC.applyType = RepairApplyType;
+            break;
+        }
+        default:
+            break;
+    }
     return newsListVC;
 }
 

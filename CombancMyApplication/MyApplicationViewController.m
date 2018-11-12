@@ -18,6 +18,10 @@
 #import "MJExtension.h"
 #import "UIColor+MyApplicaionCategory.h"
 
+#import "MyApplicationInterfaceMacro.h"
+#import "MyApplicationInterfaceRequest.h"
+#import "MyApplicationModel.h"
+
 static NSString *const ApplicationCellID = @"ApplicationCellID";
 
 @interface MyApplicationViewController ()<
@@ -29,6 +33,7 @@ StateSelectionViewDelegate
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) StateSelectionView *stateSelectionView;
 @property (nonatomic, copy  ) NSArray *titles;
+@property (nonatomic, copy  ) NSArray *dataArray;
 
 @end
 
@@ -37,15 +42,16 @@ StateSelectionViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configUI];
+    [self requestList];
 }
 
 - (void)configUI {
     switch (self.applyType) {
-        case LeaveApplyType:{
+        case CarApplyType:{
             self.titles = @[@"请假类型",@"审批状态",@"开始日期",@"结束日期"];
             break;
         }
-        case ApproveApplyType:{
+        case GroundApplyType:{
             self.titles = @[@"请假类型",@"开始日期",@"结束日期"];
             break;
         }
@@ -80,7 +86,7 @@ StateSelectionViewDelegate
 
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -90,11 +96,28 @@ StateSelectionViewDelegate
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor colorWithHex:@"#EBEBF1"];
-    cell.nameLabel.text = @"事假";
-    [cell.applicationStateLbl setTitle:@"审核通过" forState:UIControlStateNormal];
-    cell.timeLabel.text = @"2018-07-07";
-    cell.beginTimeLabel.text = @"开始时间：2018-07-31 上午";
-    cell.endTimeLabel.text = @"结束时间：2018-03-31 下午";
+    if (self.applyType == RepairApplyType) {
+        RepairListModel *model = self.dataArray[indexPath.row];
+        cell.nameLabel.text = model.type;
+        [cell.applicationStateLbl setTitle:model.stateStr forState:UIControlStateNormal];
+        cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
+        cell.beginTimeLabel.text = [NSString stringWithFormat:@"申请人：%@",model.applyUser];
+        cell.endTimeLabel.text = [NSString stringWithFormat:@"服务时间：%@",model.freeTime];
+    }else if (self.applyType == GroundApplyType) {
+        GroundListModel *model = self.dataArray[indexPath.row];
+        cell.nameLabel.text = model.venueName;
+        [cell.applicationStateLbl setTitle:model.state forState:UIControlStateNormal];
+        cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
+        cell.beginTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@",model.stime];
+        cell.endTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",model.etime];
+    }else if (self.applyType == CarApplyType) {
+        CarListModel *model = self.dataArray[indexPath.row];
+        cell.nameLabel.text = model.title;
+        [cell.applicationStateLbl setTitle:model.stateStr forState:UIControlStateNormal];
+        cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
+        cell.beginTimeLabel.text = [NSString stringWithFormat:@"申请人：%@",model.name];
+        cell.endTimeLabel.text = [NSString stringWithFormat:@"申请原因：%@",model.describ];
+    }
     return cell;
 }
 
@@ -106,7 +129,7 @@ StateSelectionViewDelegate
 
 #pragma mark - StateSelectionViewDelegate
 - (void)buttonClickedWithTag:(NSInteger)tag {
-    if (self.applyType == LeaveApplyType ||
+    if (self.applyType == CarApplyType ||
         self.applyType == RepairApplyType) {
         if (tag == 0) {
             [PickerSelectView showPickerSelecterWithTitle:@"" selectInfo:@[@[@"类型1",@"类型2",@"类型3"]] resultBlock:^(NSArray *selectValue) {
@@ -129,4 +152,25 @@ StateSelectionViewDelegate
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     return [ApplicationDetailModel mj_objectArrayWithKeyValuesArray:dic[@"data"]];
 }
+
+#pragma mark - 请求列表
+- (void)requestList {
+    if (self.applyType == RepairApplyType) {
+        [MyApplicationInterfaceRequest requestRepairList:repairApplylistParam(@"0", @"100", @"") success:^(id json) {
+            self.dataArray = json;
+            [self.myTableView reloadData];
+        } failed:^(NSError *error) {}];
+    }else if (self.applyType == GroundApplyType) {
+        [MyApplicationInterfaceRequest requestGroundList:groundApplylistParam(@"1", @"10", @"", @"") success:^(id json) {
+            self.dataArray = json;
+            [self.myTableView reloadData];
+        } failed:^(NSError *error) {}];
+    }else if (self.applyType == CarApplyType) {
+        [MyApplicationInterfaceRequest requestCarList:carApplylistParam(@"", @"", @"", @"1", @"10") success:^(id json) {
+            self.dataArray = json;
+            [self.myTableView reloadData];
+        } failed:^(NSError *error) {}];
+    }
+}
+
 @end

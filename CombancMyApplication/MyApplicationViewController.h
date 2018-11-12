@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 typedef enum ApplyType{
-    LeaveApplyType = 0,
-    ApproveApplyType,
+    CarApplyType = 0,
+    GroundApplyType,
     RepairApplyType
 }ApplyType;
 
