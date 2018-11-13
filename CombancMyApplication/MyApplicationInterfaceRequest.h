@@ -24,4 +24,12 @@ typedef void(^RequestFailed)(NSError *error);
 //获取我的用车申请列表
 + (void)requestCarList:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed;
 
+//撤销报修申请
++ (void)requestRevokeRepairApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed;
+
+//撤销场地申请
++ (void)requestRevokeGroundApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed;
+
+//撤销用车申请
++ (void)requestRevokeCarApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed;
 @end

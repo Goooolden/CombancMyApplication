@@ -64,6 +64,36 @@
     }];
 }
 
++ (void)requestRevokeGroundApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
+    [HTTPTool postWithURL:RevokeGround_URL headers:header(MyToken) params:param success:^(id json) {
+        if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
+            NSLog(@"revoke ground");
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
++ (void)requestRevokeRepairApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
+    [HTTPTool postWithURL:RevokeRepair_URL headers:header(MyToken) params:param success:^(id json) {
+        if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
+            NSLog(@"revoke repair");
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
++ (void)requestRevokeCarApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
+    [HTTPTool postWithURL:RevokeCar_URL headers:header(MyToken) params:param success:^(id json) {
+        if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
+            NSLog(@"revoke car");
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
 //请求参数成功检测
 - (BOOL)isRequestSuccess:(id)json {
     switch ([json[@"result"] intValue]) {

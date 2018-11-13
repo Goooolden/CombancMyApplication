@@ -65,7 +65,7 @@ StateSelectionViewDelegate
     
     self.stateSelectionView = [[StateSelectionView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, getHeight(33)) WithTitles:self.titles];
     self.stateSelectionView.delegate = self;
-    [self.view addSubview:self.stateSelectionView];
+    //[self.view addSubview:self.stateSelectionView];
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.myTableView.delegate = self;
@@ -79,8 +79,9 @@ StateSelectionViewDelegate
     self.myTableView.backgroundColor = [UIColor colorWithHex:@"#EBEBF1"];
     [self.view addSubview:self.myTableView];
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.stateSelectionView.mas_bottom);
-        make.left.right.bottom.equalTo(self.view);
+//        make.top.equalTo(self.stateSelectionView.mas_bottom);
+//        make.left.right.bottom.equalTo(self.view);
+        make.edges.equalTo(self.view);
     }];
 }
 
@@ -123,7 +124,19 @@ StateSelectionViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ApplicationDetailViewController *detailVC = [[ApplicationDetailViewController alloc]init];
-    detailVC.modelArray = [self getData:@"ApplicationDetail"];
+    if (self.applyType == RepairApplyType) {
+        detailVC.modelArray = [self getData:@"RepairApplicationDetail"];
+        detailVC.applicationType = ApplicationTypeRepair;
+        detailVC.repairModel = self.dataArray[indexPath.row];
+    }else if (self.applyType == GroundApplyType) {
+        detailVC.modelArray = [self getData:@"GroundApplicationDetail"];
+        detailVC.applicationType = ApplicationTypeGround;
+        detailVC.groundModel = self.dataArray[indexPath.row];
+    }else if (self.applyType == CarApplyType) {
+        detailVC.modelArray = [self getData:@"CarApplicationDetail"];
+        detailVC.applicationType = ApplicationTypeCar;
+        detailVC.carModel = self.dataArray[indexPath.row];
+    }
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
