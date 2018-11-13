@@ -24,6 +24,7 @@ NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEnc
 
 #define MyApplicatonToken (@"MyApplicatonToken")
 #define BASE_URL (@"https://campus.shuxiaoyun.cn/micro/oa")
+#define NewsImageURL (@"https://campus.shuxiaoyun.cn/micro/file/upload")
 #define MyToken [[NSUserDefaults standardUserDefaults] objectForKey:MyApplicatonToken]
 
 //请求header
@@ -94,4 +95,34 @@ NS_INLINE NSDictionary *carApplylistParam(NSString *q,NSString *state,NSString *
     return paramDic.copy;
 }
 
+//撤销用车申请
+#define RevokeCar_URL ([NSString stringWithFormat:@"%@/car/apply/cancel",BASE_URL])
+NS_INLINE NSDictionary *revokeCarParam(NSString *id) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    setObjectForKey(id);
+    setObjectForParameter(dictionary.copy);
+    return paramDic.copy;
+}
+
+//撤销场地申请
+#define RevokeGround_URL ([NSString stringWithFormat:@"%@/venue/cancelApply",BASE_URL])
+NS_INLINE NSDictionary *revokeGroundParam(NSString *applyId) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    setObjectForKey(applyId);
+    setObjectForParameter(dictionary.copy);
+    return paramDic.copy;
+}
+
+//撤销报修申请
+#define RevokeRepair_URL ([NSString stringWithFormat:@"%@/repair/updateApply",BASE_URL])
+NS_INLINE NSDictionary *revokeRepairParam(NSString *state,NSString *id) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    setObjectForKey(state);
+    setObjectForKey(id);
+    setObjectForParameter(dictionary.copy);
+    return paramDic.copy;
+}
 #endif /* MyApplicationInterfaceMacro_h */
