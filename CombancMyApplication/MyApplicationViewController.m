@@ -15,12 +15,14 @@
 
 #import "MyApplyDefine.h"
 #import "Masonry.h"
+#import "MJRefresh.h"
 #import "MJExtension.h"
 #import "UIColor+MyApplicaionCategory.h"
 
 #import "MyApplicationInterfaceMacro.h"
 #import "MyApplicationInterfaceRequest.h"
 #import "MyApplicationModel.h"
+#import "ApplicationStateManager.h"
 
 static NSString *const ApplicationCellID = @"ApplicationCellID";
 
@@ -34,6 +36,8 @@ StateSelectionViewDelegate
 @property (nonatomic, strong) StateSelectionView *stateSelectionView;
 @property (nonatomic, copy  ) NSArray *titles;
 @property (nonatomic, copy  ) NSArray *dataArray;
+@property (nonatomic, assign) NSInteger page;
+@property (nonatomic, assign) NSInteger pageSize;
 
 @end
 
@@ -41,8 +45,23 @@ StateSelectionViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.page = 1;
+    self.pageSize = 10;
     [self configUI];
     [self requestList];
+    [self createRefresh];
+}
+
+- (void)createRefresh {
+    self.myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self.pageSize = 10;
+        [self requestList];
+    }];
+    
+    self.myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        self.pageSize += 10;
+        [self requestList];
+    }];
 }
 
 - (void)configUI {
@@ -101,13 +120,17 @@ StateSelectionViewDelegate
         RepairListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.type;
         [cell.applicationStateLbl setTitle:model.stateStr forState:UIControlStateNormal];
+        [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
+        [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
         cell.beginTimeLabel.text = [NSString stringWithFormat:@"申请人：%@",model.applyUser];
         cell.endTimeLabel.text = [NSString stringWithFormat:@"服务时间：%@",model.freeTime];
     }else if (self.applyType == GroundApplyType) {
         GroundListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.venueName;
-        [cell.applicationStateLbl setTitle:model.state forState:UIControlStateNormal];
+        [cell.applicationStateLbl setTitle:[ApplicationStateManager getStatestrWithStates:model.state] forState:UIControlStateNormal];
+        [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
+        [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
         cell.beginTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@",model.stime];
         cell.endTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",model.etime];
@@ -115,6 +138,8 @@ StateSelectionViewDelegate
         CarListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.title;
         [cell.applicationStateLbl setTitle:model.stateStr forState:UIControlStateNormal];
+        [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
+        [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
         cell.beginTimeLabel.text = [NSString stringWithFormat:@"申请人：%@",model.name];
         cell.endTimeLabel.text = [NSString stringWithFormat:@"申请原因：%@",model.describ];
@@ -128,14 +153,17 @@ StateSelectionViewDelegate
         detailVC.modelArray = [self getData:@"RepairApplicationDetail"];
         detailVC.applicationType = ApplicationTypeRepair;
         detailVC.repairModel = self.dataArray[indexPath.row];
+        detailVC.title = @"报修详情";
     }else if (self.applyType == GroundApplyType) {
         detailVC.modelArray = [self getData:@"GroundApplicationDetail"];
         detailVC.applicationType = ApplicationTypeGround;
         detailVC.groundModel = self.dataArray[indexPath.row];
+        detailVC.title = @"场地详情";
     }else if (self.applyType == CarApplyType) {
         detailVC.modelArray = [self getData:@"CarApplicationDetail"];
         detailVC.applicationType = ApplicationTypeCar;
         detailVC.carModel = self.dataArray[indexPath.row];
+        detailVC.title = @"用车详情";
     }
     [self.navigationController pushViewController:detailVC animated:YES];
 }
@@ -172,17 +200,32 @@ StateSelectionViewDelegate
         [MyApplicationInterfaceRequest requestRepairList:repairApplylistParam(@"0", @"100", @"") success:^(id json) {
             self.dataArray = json;
             [self.myTableView reloadData];
-        } failed:^(NSError *error) {}];
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        } failed:^(NSError *error) {
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        }];
     }else if (self.applyType == GroundApplyType) {
-        [MyApplicationInterfaceRequest requestGroundList:groundApplylistParam(@"1", @"10", @"", @"") success:^(id json) {
+        [MyApplicationInterfaceRequest requestGroundList:groundApplylistParam([@(self.page) description], [@(self.pageSize) description], @"", @"") success:^(id json) {
             self.dataArray = json;
             [self.myTableView reloadData];
-        } failed:^(NSError *error) {}];
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        } failed:^(NSError *error) {
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        }];
     }else if (self.applyType == CarApplyType) {
-        [MyApplicationInterfaceRequest requestCarList:carApplylistParam(@"", @"", @"", @"1", @"10") success:^(id json) {
+        [MyApplicationInterfaceRequest requestCarList:carApplylistParam(@"", @"", @"", [@(self.page) description], [@(self.pageSize) description]) success:^(id json) {
             self.dataArray = json;
             [self.myTableView reloadData];
-        } failed:^(NSError *error) {}];
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        } failed:^(NSError *error) {
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        }];
     }
 }
 

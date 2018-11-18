@@ -13,6 +13,7 @@
 #import "MyApplicationInterfaceMacro.h"
 #import "MyApplicationInterfaceRequest.h"
 #import "UIColor+MyApplicaionCategory.h"
+#import "ApplicationStateView.h"
 
 #import "ApplicationDetailTableViewCell.h"     //申请信息详情cell
 #import "ShowImageTableViewCell.h"             //显示图片
@@ -60,6 +61,17 @@ UITableViewDataSource>
     }else if (self.applicationType == ApplicationTypeRepair && ![self.repairModel.state isEqualToString:@"-1"]) {
         self.myTableView.tableFooterView = self.footView;
     }
+    
+    if (self.applicationType == ApplicationTypeCar) {
+        ApplicationStateView *stateView = [[ApplicationStateView alloc]initWithState:self.carModel.state];
+        self.myTableView.tableHeaderView = stateView;
+    }else if (self.applicationType == ApplicationTypeGround) {
+        ApplicationStateView *stateView = [[ApplicationStateView alloc]initWithState:self.groundModel.state];
+        self.myTableView.tableHeaderView = stateView;
+    }else if (self.applicationType == ApplicationTypeRepair) {
+        ApplicationStateView *stateView = [[ApplicationStateView alloc]initWithState:self.repairModel.state];
+        self.myTableView.tableHeaderView = stateView;
+    }
 }
 
 - (void)configUI {
@@ -71,6 +83,7 @@ UITableViewDataSource>
     self.myTableView.tableFooterView = [UIView new];
     self.myTableView.rowHeight = UITableViewAutomaticDimension;
     self.myTableView.estimatedRowHeight = 80;
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.myTableView];
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
