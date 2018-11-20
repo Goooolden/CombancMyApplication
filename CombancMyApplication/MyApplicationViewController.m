@@ -119,7 +119,7 @@ StateSelectionViewDelegate
     if (self.applyType == RepairApplyType) {
         RepairListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.type;
-        [cell.applicationStateLbl setTitle:model.stateStr forState:UIControlStateNormal];
+        [cell.applicationStateLbl setTitle:[ApplicationStateManager getStatestrWithStates:model.state] forState:UIControlStateNormal];
         [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
         [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
@@ -137,7 +137,7 @@ StateSelectionViewDelegate
     }else if (self.applyType == CarApplyType) {
         CarListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.title;
-        [cell.applicationStateLbl setTitle:model.stateStr forState:UIControlStateNormal];
+        [cell.applicationStateLbl setTitle:[ApplicationStateManager getStatestrWithStates:model.state] forState:UIControlStateNormal];
         [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
         [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];

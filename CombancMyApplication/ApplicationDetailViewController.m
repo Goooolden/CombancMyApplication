@@ -54,7 +54,9 @@ UITableViewDataSource>
     [super viewDidLoad];
     self.sectionArray = [ApplicationTypeManager sectionNumberOfApplicationCellWithDetailModelInfo:self.modelArray];
     [self configUI];
-    if (self.applicationType == ApplicationTypeCar && ![self.carModel.state isEqualToString:@"-1"]) {
+    if (self.applicationType == ApplicationTypeCar &&
+        ([self.carModel.state isEqualToString:@"0"] ||
+        [self.carModel.state isEqualToString:@"1"])) {
         self.myTableView.tableFooterView = self.footView;
     }else if (self.applicationType == ApplicationTypeGround && ![self.groundModel.state isEqualToString:@"-1"]) {
         self.myTableView.tableFooterView = self.footView;
