@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "CombancMyApplication"
-  s.version      = "0.0.9"
+  s.version      = "0.0.10"
   s.summary      = "我的申请界面"
 
   # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Goooolden/CombancMyApplication.git", :tag => "0.0.9" }
+  s.source       = { :git => "https://github.com/Goooolden/CombancMyApplication.git", :tag => "0.0.10" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

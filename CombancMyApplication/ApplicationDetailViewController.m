@@ -56,13 +56,17 @@ UITableViewDataSource>
     [self configUI];
     if (self.applicationType == ApplicationTypeCar &&
         ([self.carModel.state isEqualToString:@"0"] ||
-        [self.carModel.state isEqualToString:@"1"])) {
-        self.myTableView.tableFooterView = self.footView;
-    }else if (self.applicationType == ApplicationTypeGround && ![self.groundModel.state isEqualToString:@"-1"]) {
-        self.myTableView.tableFooterView = self.footView;
-    }else if (self.applicationType == ApplicationTypeRepair && ![self.repairModel.state isEqualToString:@"-1"]) {
-        self.myTableView.tableFooterView = self.footView;
-    }
+         [self.carModel.state isEqualToString:@"1"])) {
+            self.myTableView.tableFooterView = self.footView;
+        }else if (self.applicationType == ApplicationTypeGround &&
+                  ([self.groundModel.state isEqualToString:@"0"] ||
+                   [self.groundModel.state isEqualToString:@"1"])) {
+            self.myTableView.tableFooterView = self.footView;
+        }else if (self.applicationType == ApplicationTypeRepair &&
+                ([self.repairModel.state isEqualToString:@"0"] ||
+                [self.repairModel.state isEqualToString:@"1"])) {
+            self.myTableView.tableFooterView = self.footView;
+        }
     
     if (self.applicationType == ApplicationTypeCar) {
         ApplicationStateView *stateView = [[ApplicationStateView alloc]initWithState:self.carModel.state];
