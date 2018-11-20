@@ -67,30 +67,30 @@
 + (void)requestRevokeGroundApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
     [HTTPTool postWithURL:RevokeGround_URL headers:header(MyToken) params:param success:^(id json) {
         if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
-            NSLog(@"revoke ground");
+            success(json);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 
 + (void)requestRevokeRepairApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
     [HTTPTool postWithURL:RevokeRepair_URL headers:header(MyToken) params:param success:^(id json) {
         if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
-            NSLog(@"revoke repair");
+            success(json);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 
 + (void)requestRevokeCarApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
     [HTTPTool postWithURL:RevokeCar_URL headers:header(MyToken) params:param success:^(id json) {
         if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
-            NSLog(@"revoke car");
+            success(json);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 

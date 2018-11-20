@@ -14,6 +14,7 @@
 #import "MyApplicationInterfaceRequest.h"
 #import "UIColor+MyApplicaionCategory.h"
 #import "ApplicationStateView.h"
+#import "CombancHUD.h"
 
 #import "ApplicationDetailTableViewCell.h"     //申请信息详情cell
 #import "ShowImageTableViewCell.h"             //显示图片
@@ -189,11 +190,23 @@ UITableViewDataSource>
 //点击撤销按钮
 - (void)submitClick:(UIButton *)sender {
     if (self.applicationType == ApplicationTypeCar) {
-        [MyApplicationInterfaceRequest requestRevokeCarApply:revokeCarParam(self.carModel.id) success:^(id json) {} failed:^(NSError *error) {}];
+        [MyApplicationInterfaceRequest requestRevokeCarApply:revokeCarParam(self.carModel.id) success:^(id json) {
+            [CombancHUD showSuccessMessage:@"撤销成功"];
+        } failed:^(NSError *error) {
+            [CombancHUD showErrorMessage:@"撤销失败"];
+        }];
     }else if (self.applicationType == ApplicationTypeGround) {
-        [MyApplicationInterfaceRequest requestRevokeCarApply:revokeGroundParam(self.groundModel.id) success:^(id json) {} failed:^(NSError *error) {}];
+        [MyApplicationInterfaceRequest requestRevokeCarApply:revokeGroundParam(self.groundModel.id) success:^(id json) {
+            [CombancHUD showSuccessMessage:@"撤销成功"];
+        } failed:^(NSError *error) {
+            [CombancHUD showErrorMessage:@"撤销失败"];
+        }];
     }else if (self.applicationType == ApplicationTypeRepair) {
-        [MyApplicationInterfaceRequest requestRevokeRepairApply:revokeRepairParam(@"-1", self.repairModel.id) success:^(id json) {} failed:^(NSError *error) {}];
+        [MyApplicationInterfaceRequest requestRevokeRepairApply:revokeRepairParam(@"-1", self.repairModel.id) success:^(id json) {
+            [CombancHUD showSuccessMessage:@"撤销成功"];
+        } failed:^(NSError *error) {
+            [CombancHUD showErrorMessage:@"撤销失败"];
+        }];
     }
 }
 
