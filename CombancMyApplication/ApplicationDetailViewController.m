@@ -53,6 +53,7 @@ UITableViewDataSource>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.sectionArray = [ApplicationTypeManager sectionNumberOfApplicationCellWithDetailModelInfo:self.modelArray];
     [self configUI];
     if (self.applicationType == ApplicationTypeCar &&
