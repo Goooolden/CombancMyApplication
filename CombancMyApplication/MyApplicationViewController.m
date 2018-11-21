@@ -100,7 +100,14 @@ StateSelectionViewDelegate
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.stateSelectionView.mas_bottom);
 //        make.left.right.bottom.equalTo(self.view);
-        make.edges.equalTo(self.view);
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.edges.equalTo(self.view);
+        }
     }];
 }
 
