@@ -27,7 +27,7 @@
             success(array);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 
@@ -38,7 +38,7 @@
             success(dataArray);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 
@@ -49,7 +49,7 @@
             success(dataArray);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 
@@ -60,7 +60,7 @@
             success(dataArray);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
     }];
 }
 

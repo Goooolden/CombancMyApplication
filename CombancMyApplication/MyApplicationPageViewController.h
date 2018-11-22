@@ -10,6 +10,7 @@
 
 @interface MyApplicationPageViewController : WMPageController
 
-@property (nonatomic, strong) NSString *token;
+@property (nonatomic, copy) NSString *baseUrl;
+@property (nonatomic, copy) NSString *token;
 
 @end

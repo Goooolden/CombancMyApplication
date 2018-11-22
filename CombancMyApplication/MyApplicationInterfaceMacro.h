@@ -26,8 +26,9 @@ NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEnc
 } while (0)
 
 #define MyApplicatonToken (@"MyApplicatonToken")
-#define BASE_URL (@"https://campus.shuxiaoyun.cn/micro/oa")
-#define NewsImageURL (@"https://campus.shuxiaoyun.cn/micro/file/upload")
+#define MyApplicationBaseUrl (@"MyApplicationBaseUrl")
+#define NewsImageURL ([NSString stringWithFormat:@"%@/file/upload",[[NSUserDefaults standardUserDefaults] objectForKey:MyApplicationBaseUrl]])
+#define BASE_URL ([NSString stringWithFormat:@"%@/oa",[[NSUserDefaults standardUserDefaults] objectForKey:MyApplicationBaseUrl]])
 #define MyToken [[NSUserDefaults standardUserDefaults] objectForKey:MyApplicatonToken]
 
 //请求header

@@ -25,6 +25,10 @@
     [[NSUserDefaults standardUserDefaults] setObject:token forKey:MyApplicatonToken];
 }
 
+- (void)setBaseUrl:(NSString *)baseUrl {
+    [[NSUserDefaults standardUserDefaults] setObject:baseUrl forKey:MyApplicationBaseUrl];
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         self.pageAnimatable = NO;
