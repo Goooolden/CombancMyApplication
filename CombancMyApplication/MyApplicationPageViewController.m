@@ -47,7 +47,7 @@
 }
 
 - (NSArray *)titles {
-    return @[@"用车",@"场地",@"报修"];
+    return @[@"报修",@"约车",@"场地"];
 }
 
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
@@ -62,15 +62,15 @@
     MyApplicationViewController *newsListVC = [[MyApplicationViewController alloc]init];
     switch (index) {
         case 0:{
-            newsListVC.applyType = CarApplyType;
+            newsListVC.applyType = RepairApplyType;
             break;
         }
         case 1:{
-            newsListVC.applyType = GroundApplyType;
+            newsListVC.applyType = CarApplyType;
             break;
         }
         case 2:{
-            newsListVC.applyType = RepairApplyType;
+            newsListVC.applyType = GroundApplyType;
             break;
         }
         default:

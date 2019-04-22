@@ -9,6 +9,7 @@
 #import "ApplicationStateManager.h"
 #import "UIColor+MyApplicaionCategory.h"
 #import "MyApplicationInterfaceMacro.h"
+#import "Masonry.h"
 
 @interface ApplicationStateView()
 
@@ -34,10 +35,13 @@
     NSString *stateStr = [ApplicationStateManager getStatestrWithStates:_state];
     [stateBtn setTitleColor:stateColor forState:UIControlStateNormal];
     [stateBtn setBackgroundColor:[stateColor colorWithAlphaComponent:0.3]];
-    [stateBtn setTitle:stateStr forState:UIControlStateNormal];
-    stateBtn.frame = CGRectMake(20, 12, 90, 25);
+    [stateBtn setTitle:[NSString stringWithFormat:@"  %@  ",stateStr] forState:UIControlStateNormal];
     stateBtn.layer.cornerRadius = 16;
     [self addSubview:stateBtn];
+    [stateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mas_centerY);
+        make.left.equalTo(self.mas_left).offset(20);
+    }];
     
     UILabel *lineLabel = [[UILabel alloc]init];
     lineLabel.frame = CGRectMake(20, 43, [UIScreen mainScreen].bounds.size.width - 20, 1);

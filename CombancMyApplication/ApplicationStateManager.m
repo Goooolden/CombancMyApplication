@@ -39,6 +39,9 @@
 }
 
 + (NSString *)getStatestrWithStates:(NSString *)states {
+    if (![states integerValue] && ![states isEqualToString:@"0"]) {
+        return states;
+    }
     switch ([states integerValue]) {
         case -1:{
             return @"已撤销";

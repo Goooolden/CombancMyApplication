@@ -40,9 +40,7 @@
     self.applicationStateLbl = [UIButton buttonWithType:UIButtonTypeCustom];
     self.applicationStateLbl.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:12];
     [self.applicationStateLbl setTitleColor:[UIColor colorWithHex:@"#71ca58"] forState:UIControlStateNormal];
-    self.applicationStateLbl.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.applicationStateLbl setBackgroundImage:[UIImage imageNamed:@"apply_green_bg"] forState:UIControlStateNormal];
-    self.applicationStateLbl.layer.cornerRadius = 16;
+    self.applicationStateLbl.layer.cornerRadius = 13;
     [self.backGroundView addSubview:self.applicationStateLbl];
     
     self.timeLabel = [[UILabel alloc]init];
@@ -77,7 +75,7 @@
     [self.applicationStateLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.timeLabel.mas_left).offset(-10);
         make.centerY.equalTo(self.nameLabel.mas_centerY);
-        make.width.mas_offset(80);
+//        make.width.mas_offset(80);
     }];
     
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {

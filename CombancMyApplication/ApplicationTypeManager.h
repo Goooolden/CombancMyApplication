@@ -13,4 +13,6 @@
 
 + (NSMutableArray *)sectionNumberOfApplicationCellWithDetailModelInfo:(NSArray<ApplicationDetailModel *>*)modelArray;
 
++ (NSMutableArray *)carSectionNumberOfApplicationCellWithDetailModelInfo:(NSArray<ApplicationDetailModel *> *)modelArray withState:(NSString *)stateStr;
+
 @end

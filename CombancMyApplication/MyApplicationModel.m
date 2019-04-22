@@ -46,3 +46,19 @@
 @implementation CarListModel
 
 @end
+
+@implementation MyApplyCarApplyUsersModel
+
+@end
+
+@implementation MyApplyCarInfoModel
+
+@end
+
+@implementation MyApplyCarImagePathModel
+
+@end
+
+@implementation MyApplyDriverModel
+
+@end

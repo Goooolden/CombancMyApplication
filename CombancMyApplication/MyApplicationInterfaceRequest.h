@@ -32,4 +32,7 @@ typedef void(^RequestFailed)(NSError *error);
 
 //撤销用车申请
 + (void)requestRevokeCarApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed;
+
+//服务评价
++ (void)requestUpdateApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed;
 @end

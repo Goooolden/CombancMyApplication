@@ -86,6 +86,20 @@ NS_INLINE NSDictionary *groundApplylistParam(NSString *page,NSString *pageSize,N
 }
 
 #pragma mark - 我的用车申请列表
+//2019-3-25 修改
+#define CarApplylist_URL ([NSString stringWithFormat:@"%@/car/listMyApply",BASE_URL])
+NS_INLINE NSDictionary *carApplylistParam(NSString *state,NSString *sday,NSString *eday,NSString *page,NSString *pageSize) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    setObjectForKey(state);
+    setObjectForKey(sday);
+    setObjectForKey(eday);
+    setObjectForKey(page);
+    setObjectForKey(pageSize);
+    setObjectForParameter(dictionary.copy);
+    return paramDic.copy;
+}
+#if 0
 #define CarApplylist_URL ([NSString stringWithFormat:@"%@/car/apply/page",BASE_URL])
 NS_INLINE NSDictionary *carApplylistParam(NSString *q,NSString *state,NSString *outDate,NSString *currentPage,NSString *pageSize) {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -98,13 +112,27 @@ NS_INLINE NSDictionary *carApplylistParam(NSString *q,NSString *state,NSString *
     setObjectForParameter(dictionary.copy);
     return paramDic.copy;
 }
+#endif
 
-//撤销用车申请
-#define RevokeCar_URL ([NSString stringWithFormat:@"%@/car/apply/cancel",BASE_URL])
-NS_INLINE NSDictionary *revokeCarParam(NSString *id) {
+#define UpdateApply_URL ([NSString stringWithFormat:@"%@/car/updateApply",BASE_URL])
+NS_INLINE NSDictionary *ServiceUpdateApplyParam(NSString *applyId, NSString *state, NSString *eva, NSString *stars) {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
-    setObjectForKey(id);
+    setObjectForKey(applyId);
+    setObjectForKey(state);
+    setObjectForKey(eva);
+    setObjectForKey(stars);
+    setObjectForParameter(dictionary.copy);
+    return paramDic.copy;
+}
+
+//撤销用车申请
+#define RevokeCar_URL ([NSString stringWithFormat:@"%@/car/updateApply",BASE_URL])
+NS_INLINE NSDictionary *revokeCarParam(NSString *applyId,NSString *state) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    setObjectForKey(applyId);
+    setObjectForKey(state);
     setObjectForParameter(dictionary.copy);
     return paramDic.copy;
 }

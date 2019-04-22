@@ -94,6 +94,16 @@
     }];
 }
 
++ (void)requestUpdateApply:(NSDictionary *)param success:(RequestSuccess)success failed:(RequestFailed)failed {
+    [HTTPTool postWithURL:UpdateApply_URL headers:header(MyToken) params:param success:^(id json) {
+        if ([[MyApplicationInterfaceRequest new] isRequestSuccess:json]) {
+            success(json);
+        }
+    } failure:^(NSError *error) {
+        failed(error);
+    }];
+}
+
 //请求参数成功检测
 - (BOOL)isRequestSuccess:(id)json {
     switch ([json[@"result"] intValue]) {

@@ -43,12 +43,17 @@ StateSelectionViewDelegate
 
 @implementation MyApplicationViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestList];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.page = 1;
     self.pageSize = 10;
     [self configUI];
-    [self requestList];
+//    [self requestList];
     [self createRefresh];
 }
 
@@ -84,7 +89,7 @@ StateSelectionViewDelegate
     
     self.stateSelectionView = [[StateSelectionView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, getHeight(33)) WithTitles:self.titles];
     self.stateSelectionView.delegate = self;
-    //[self.view addSubview:self.stateSelectionView];
+//    [self.view addSubview:self.stateSelectionView];
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.myTableView.delegate = self;
@@ -98,8 +103,6 @@ StateSelectionViewDelegate
     self.myTableView.backgroundColor = [UIColor colorWithHex:@"#EBEBF1"];
     [self.view addSubview:self.myTableView];
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.stateSelectionView.mas_bottom);
-//        make.left.right.bottom.equalTo(self.view);
         if (@available(iOS 11.0, *)) {
             make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
             make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
@@ -126,7 +129,7 @@ StateSelectionViewDelegate
     if (self.applyType == RepairApplyType) {
         RepairListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.type;
-        [cell.applicationStateLbl setTitle:[ApplicationStateManager getStatestrWithStates:model.state] forState:UIControlStateNormal];
+        [cell.applicationStateLbl setTitle:[NSString stringWithFormat:@"  %@  ",[ApplicationStateManager getStatestrWithStates:model.state]] forState:UIControlStateNormal];
         [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
         [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
@@ -135,7 +138,7 @@ StateSelectionViewDelegate
     }else if (self.applyType == GroundApplyType) {
         GroundListModel *model = self.dataArray[indexPath.row];
         cell.nameLabel.text = model.venueName;
-        [cell.applicationStateLbl setTitle:[ApplicationStateManager getStatestrWithStates:model.state] forState:UIControlStateNormal];
+        [cell.applicationStateLbl setTitle:[NSString stringWithFormat:@"  %@  ",[ApplicationStateManager getStatestrWithStates:model.state]] forState:UIControlStateNormal];
         [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
         [cell.applicationStateLbl setTitleColor:[ApplicationStateManager getColorWithStates:model.state] forState:UIControlStateNormal];
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
@@ -143,6 +146,14 @@ StateSelectionViewDelegate
         cell.endTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@",model.etime];
     }else if (self.applyType == CarApplyType) {
         CarListModel *model = self.dataArray[indexPath.row];
+        cell.nameLabel.text = [NSString stringWithFormat:@"%@~%@",model.startLoc,model.endLoc];
+        cell.beginTimeLabel.text = [NSString stringWithFormat:@"预留电话：%@",model.phone];
+        cell.endTimeLabel.text = [NSString stringWithFormat:@"发车时间：%@",model.useTime];
+        
+        [cell.applicationStateLbl setTitle:[NSString stringWithFormat:@"  %@  ",model.stateStr] forState:UIControlStateNormal];
+        [cell.applicationStateLbl setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [cell.applicationStateLbl setBackgroundColor:[[UIColor redColor] colorWithAlphaComponent:0.3]];
+#if 0
         cell.nameLabel.text = model.title;
         [cell.applicationStateLbl setTitle:[ApplicationStateManager getStatestrWithStates:model.state] forState:UIControlStateNormal];
         [cell.applicationStateLbl setBackgroundColor:[[ApplicationStateManager getColorWithStates:model.state] colorWithAlphaComponent:0.3]];
@@ -150,6 +161,7 @@ StateSelectionViewDelegate
         cell.timeLabel.text = [[model.applyTime componentsSeparatedByString:@" "] firstObject];
         cell.beginTimeLabel.text = [NSString stringWithFormat:@"申请人：%@",model.name];
         cell.endTimeLabel.text = [NSString stringWithFormat:@"申请原因：%@",model.describ];
+#endif
     }
     return cell;
 }
@@ -224,7 +236,7 @@ StateSelectionViewDelegate
             [self.myTableView.mj_footer endRefreshing];
         }];
     }else if (self.applyType == CarApplyType) {
-        [MyApplicationInterfaceRequest requestCarList:carApplylistParam(@"", @"", @"", [@(self.page) description], [@(self.pageSize) description]) success:^(id json) {
+        [MyApplicationInterfaceRequest requestCarList:carApplylistParam(@"0", @"", @"", [@(self.page) description], [@(self.pageSize) description]) success:^(id json) {
             self.dataArray = json;
             [self.myTableView reloadData];
             [self.myTableView.mj_header endRefreshing];

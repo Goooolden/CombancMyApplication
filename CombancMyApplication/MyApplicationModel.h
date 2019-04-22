@@ -90,8 +90,10 @@
 @end
 
 #pragma mark - 用车申请列表
+@class MyApplyDriverModel;
+@class MyApplyCarInfoModel;
 @interface CarListModel : NSObject
-
+#if 0
 @property (nonatomic, copy) NSString *outDate;
 @property (nonatomic, copy) NSString *reason;
 @property (nonatomic, copy) NSString *handleTime;
@@ -113,5 +115,72 @@
 @property (nonatomic, copy) NSString *state;
 @property (nonatomic, copy) NSString *applyTime;
 @property (nonatomic, copy) NSString *outTime;
+#endif
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSDictionary *applyUsers;
+@property (nonatomic, strong) MyApplyCarInfoModel *car;
+@property (nonatomic, strong) MyApplyDriverModel *driver;
+@property (nonatomic, copy) NSString *phone;
+@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *stateStr;
+@property (nonatomic, copy) NSString *reason;
+@property (nonatomic, copy) NSString *applyTime;
+@property (nonatomic, copy) NSString *count;
+@property (nonatomic, copy) NSString *names;
+@property (nonatomic, copy) NSString *describ;
+@property (nonatomic, copy) NSString *startLoc;
+@property (nonatomic, copy) NSString *endLoc;
+@property (nonatomic, copy) NSString *useTime;
+@property (nonatomic, copy) NSString *handleUsers;
+@property (nonatomic, copy) NSString *handleTime;
+@property (nonatomic, copy) NSString *driverReason;
+@property (nonatomic, copy) NSString *driverTime;
+@property (nonatomic, copy) NSString *eva;
+@property (nonatomic, copy) NSString *stars;
+@end
 
+@interface MyApplyCarApplyUsersModel : NSObject
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *username;
+@end
+
+@interface MyApplyCarInfoModel : NSObject
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *capacity;
+@property (nonatomic, copy) NSString *typeId;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSString *proTime;
+@property (nonatomic, copy) NSString *factory;
+@property (nonatomic, copy) NSString *model;
+@property (nonatomic, copy) NSString *carNum;
+@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *stateStr;
+@property (nonatomic, copy) NSString *imgs;
+@property (nonatomic, copy) NSArray  *imgPaths;
+@property (nonatomic, copy) NSArray  *applys;
+@end
+
+@interface MyApplyCarImagePathModel : NSObject
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *path;
+@end
+
+@interface MyApplyDriverModel : NSObject
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, copy) NSString *usersId;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *sex;
+@property (nonatomic, copy) NSString *typeId;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSString *startDate;
+@property (nonatomic, copy) NSString *endDate;
+@property (nonatomic, copy) NSString *driNum;
+@property (nonatomic, copy) NSString *phone;
+@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *stateStr;
+@property (nonatomic, copy) NSArray  *applys;
 @end
