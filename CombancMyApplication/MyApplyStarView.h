@@ -10,11 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class StarView;
+@class MyApplyStarView;
 @protocol StarViewDelegate <NSObject>
 @optional
 // 星星百分比（得分值）发生变化的代理
-- (void)starView:(StarView *)starView scorePercentDidChange:(CGFloat)newScorePercent;
+- (void)starView:(MyApplyStarView *)starView scorePercentDidChange:(CGFloat)newScorePercent;
 @end
 
 @interface MyApplyStarView : UIView
