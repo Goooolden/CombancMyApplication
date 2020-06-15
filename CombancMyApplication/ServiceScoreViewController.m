@@ -124,7 +124,7 @@ StarViewDelegate>
 }
 
 #pragma mark - StarViewDelegate
-- (void)starView:(StarView *)starView scorePercentDidChange:(CGFloat)newScorePercent {
+- (void)starView:(MyApplyStarView *)starView scorePercentDidChange:(CGFloat)newScorePercent {
     self.starStr = [@(newScorePercent * 5) stringValue];
 }
 
